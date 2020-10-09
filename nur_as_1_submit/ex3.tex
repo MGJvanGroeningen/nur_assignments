@@ -1,0 +1,51 @@
+\section{Satellite galaxies around a massive central}
+
+In this question we look at the radial distribution of galaxies and the Poisson distribution.
+
+\lstinputlisting{ex3_module.py}
+
+\subsection{3a}
+
+We calculate the normalization $A$ in
+\begin{equation}
+n(x)=A\left\langle N_{\text {sat }}\right\rangle\left(\frac{x}{b}\right)^{a-3} \exp \left[-\left(\frac{x}{b}\right)^{c}\right]
+\end{equation}
+
+with 
+
+\begin{equation}
+\iiint_{V} n(x) \mathrm{d} V=\left\langle N_{\mathrm{sat}}\right\rangle
+\end{equation}
+
+with boundaries $x_{min} = 10^{-4}$ and $x_{max} = 5$.
+
+\lstinputlisting{ex3a.py}
+
+Normalization $A$ is given by:
+
+\lstinputlisting{3a_output.txt}
+
+\subsection{3b}
+
+\lstinputlisting{ex3b.py}
+
+Here we interpolate 5 sample points from $n(x)$. I used linear interpolation and an akima spline. I did not have my own code for an akima spline so I used the scipy library. I realize that the idea was to not use code from special libraries, but the akima interpolation is a better fit to the true function. The main idea here is to do the interpolation in log space, as linear/polynomial interpolation of exponential functions in linear space tends to give bad results. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./3b_plot.pdf}
+  \caption{Interpolation of 5 sample points in log space in the radial distribution of galaxy satellites. Two interpolators were used: linear (blue) and akima (orange).}
+  \label{fig:3b}
+\end{figure}
+
+\newpage
+
+\subsection{3c}
+
+\lstinputlisting{ex3c.py}
+
+Poisson distribution for a number of $\lambda$ and $k$.
+
+\lstinputlisting{3c_output.txt}
+
+

@@ -1,0 +1,32 @@
+\section{Cooling rates in cosmological simulations}
+
+The shared module for this exercise 
+
+\lstinputlisting{ex1_module.py}
+
+\subsection{1a}
+
+We plot the interpolated normalized net cooling rate as function of temperature.
+
+\lstinputlisting{ex1a.py}
+
+The result of the script is the following plot.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./1a_plot.pdf}
+  \caption{This plot shows the normalized net coolring rate as function of temperature at redshift $z$ = 3 and 25\% solar metallicity for different hydrogen densities.}
+  \label{fig:1a}
+\end{figure}
+
+\newpage
+
+\subsection{1b}
+
+This code makes plots of the normalized net cooling rate at 50\% solar metallicity and hydrogen density $n_{H}$ = 0.0001 $\mathrm{cm^{-3}}$ for 101 evenly spaced redshift values between 0 and 8.989. These plots are put in a directory called 'plots1b'. A movie from these plots is created in the terminal with filename 'coolratemovie.mp4'. 
+
+\lstinputlisting{ex1b.py}
+
+
+
+

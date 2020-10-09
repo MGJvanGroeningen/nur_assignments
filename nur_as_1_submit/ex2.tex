@@ -1,0 +1,42 @@
+\section{Redshift distribution of galaxies}
+
+The shared module for this exercise 
+
+\lstinputlisting{ex2_module.py}
+
+\subsection{2a}
+
+In this question the matrix equation of \ref{eq:2a} is solved with LU-decomposition to find the values for $f_{j}$ and their sum. 
+
+\begin{equation}\label{eq:2a}
+w_{\mathrm{gs}}\left(z_{i}\right)=\sum_{j} f_{j} w_{\mathrm{ss}}\left(z_{i}, z_{j}\right)
+\end{equation}
+
+\lstinputlisting{ex2a.py}
+
+The lower matrix, upper matrix, $f_{j}$ and their sum are given below. In order to fit the matrices, only 3 decimals are shown, which causes a few values (in the representation!) to be rounded to zero.
+
+The L matrix.
+\lstinputlisting[basicstyle=\tiny]{2a_output_L.txt}
+
+The U matrix.
+\lstinputlisting[basicstyle=\tiny]{2a_output_U.txt}
+
+The values for $f_{j}$.
+\lstinputlisting{2a_output_f.txt}
+
+The sum of the $f_{j}$ values.
+\lstinputlisting{2a_output_sumf.txt}
+
+\subsection{2b}
+
+Here we use one iterative improvement to improve the values of $f_{j}$. 
+
+\lstinputlisting{ex2b.py}
+
+The new values for $f_{j}$.
+\lstinputlisting{2b_output_f.txt}
+
+The new sum of the $f_{j}$ values.
+\lstinputlisting{2b_output_sumf.txt}
+
