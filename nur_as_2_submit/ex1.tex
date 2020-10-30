@@ -1,0 +1,126 @@
+\section{Dark Matter Halo}
+
+The shared module for this exercise.
+
+\lstinputlisting{ex1_module.py}
+
+\newpage
+
+\subsection{1a}
+
+\lstinputlisting{ex1a.py}
+
+We create a random number generator \texttt{my\char`_rand(x1, x2, size)} that returns a random number (or list of random numbers with size \texttt{size}) between x1 and x2. The random number is generated with a combination of a XOR-shift and an multiplicative congruential generator (MCG). The XOR-shift consist of three XOR's on the random variable's bits and a shifted counterpart. The first counterpart is shifted by 21 to the right, the second 37 to the left and the third 4 to the right. The amounts by which the variables were shifted were taken from \cite{NURBOOK:1}. Then we multiply the random variable by 86279 and take the modulus of $2^{32}$. The first number is a large prime number to avoid early repetition and the modulus is a power of two which contributes to a fast computation. To test the RNG we plot the values of 1000 elements against their nearest elements (see Fig. \ref{fig:1a1}). We also plot a histogram of the distribution of $10^{6}$ random values (see Fig. \ref{fig:1a2}). Finally, we calculate the Pearson correlation coefficient for nearest and next nearest elements, which are respectively shown in.
+
+\newpage
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./nur_a2_1a1.pdf}
+  \caption{Elements from an array with 1000 random values plotted against their neighbours. There don't seem to be any patterns visible which is expected from a good random number generator.}
+  \label{fig:1a1}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./nur_a2_1a2.pdf}
+  \caption{Distribution of $10^{6}$ random values between 0 and 1. The horizontal black lines indicate the (Poisson) standard deviation.}
+  \label{fig:1a2}
+\end{figure}
+
+\lstinputlisting{nur_a2_1a.txt}
+
+\newpage
+
+\subsection{1b}
+
+\lstinputlisting{ex1b.py}
+
+We create an array of particles distributed according to a Hernquist profile by giving random values between 0 and 1 to the inverse of the CDF of the Hernquist profile. First, the normalized 3D CDF is calculated as follows
+
+\begin{align*}
+    y(r) & = \frac{\int^{\pi}_{0}\int^{2\pi}_{0}\int^{r}_{0} \rho (x) dV}{\int^{\pi}_{0}\int^{2\pi}_{0}\int^{\inf}_{0} \rho (x) dV} \\
+    y(r) & = 4 \pi \frac{\int^{r}_{0} \frac{M_{dm}}{2 \pi} \frac{ax}{(x + a)^{3}} dx}{M_{dm}} \\
+    y(r) & = \int^{r}_{0} \frac{ax}{(x + a)^{3}} dx \\
+    y(r) & = \frac{-a(2r +a)}{(r+a)^{2}} + 1.\\
+\end{align*}
+
+Then the inverse is derived.
+
+\begin{align*}
+    y & = \frac{-a(2r +a)}{(r+a)^{2}} + 1 \\
+    y - 1 & = \frac{-(2ra + a^{2} + r^{2} - r^{2})}{(r+a)^{2}} \\
+    y - 1 & = \frac{r^{2}}{(r+a)^{2}} - 1 \\
+    \sqrt{y} & = \frac{r}{(r+a)} \\
+    \sqrt{y}(r+a) & = r \\
+    r & = \frac{a \sqrt{y}}{1 - \sqrt{y}} \\
+\end{align*}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./nur_a2_1b.pdf}
+  \caption{The enclosed fraction of $10^{6}$ particles that are distributed according to a Hernquist profile within radius $r$. The particle distribution follows the analytical distribution (given by the CDF) very closely.}
+  \label{fig:1b}
+\end{figure}
+
+\newpage
+
+\subsection{1c}
+
+\lstinputlisting{ex1c.py}
+
+With the inverse CDF function from question 1b and the random number generator described in quesiton 1a, we generate 1000 random values for $r$, $\theta$ and $\phi$. We then transform these values to cartesian co\"ordinates with $x = r \sin(\theta) \cos(\phi)$, $y = r \sin(\theta) \sin(\phi)$ and $x = r \cos(\theta)$. We make a 3D scatter plot of the points in Fig. \ref{fig:1c1} and plot the values of $\theta$ and $\phi$ against each other in Fig. \ref{fig:1c2}.
+
+\newpage
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./nur_a2_1c1.pdf}
+  \caption{3D scatter plot of Hernquist density profile. There are points located outside the range shown here, but for visual purposes the range is restricted.}
+  \label{fig:1c1}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./nur_a2_1c2.pdf}
+  \caption{Correlation between $\theta$ and $\phi$. As in question 1a no obvious patterns are visible.}
+  \label{fig:1c2}
+\end{figure}
+
+\newpage
+
+\subsection{1d}
+
+\lstinputlisting{ex1d.py}
+
+We use Ridder's method to calculate the derivative of the Hernquist profile at $1.2a$ numerically. For an initial step size $h = 7$, step size division factor $d = 2$ and number of approximation $m = 5$ this produced a value that is very close to the analytical result. The numerical result, analytical result and their difference are given below respectively.
+
+\lstinputlisting{nur_a2_1d.txt}
+
+\subsection{1e}
+
+\lstinputlisting{ex1e.py}
+
+First we transform the problem in a root finding problem by solving the equations $\rho(r) - \Delta \rho_{c} = 0$ for $r$ for $\Delta = 200$ and $\Delta = 500$. We use the Newton-Raphson to find the root, because we can calculate the derivative of the Hernquist profile analytically and the Newton-Raphson can be very fast. In the first output box we have the radius for 200 and 500 times the critical density respectively. Then we output the mass enclosed in these radii in the same order by using the unnormalized CDF function.  
+
+\lstinputlisting{nur_a2_1e1.txt}
+
+\lstinputlisting{nur_a2_1e2.txt}
+
+\subsection{1f}
+
+\lstinputlisting{ex1f.py}
+
+We try to find the minimum of an asymmetric Hernquist potential in 2D starting from ($-1000$ kpc, $-200$ kpc). We use a downhill simplex method to stepwise get closer to the minimum. The distance from the minimum is plotted in Fig. \ref{fig:1f} as a function of the number of steps taken.
+
+\newpage
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./nur_a2_1f.pdf}
+  \caption{The distance to the minimum of the 2D Hernquist potential as a function of the number of steps. After about 125 steps, the round-off error prevents the algorithm from getting closer to the minimum.}
+  \label{fig:1f}
+\end{figure}
+
+\newpage
+
