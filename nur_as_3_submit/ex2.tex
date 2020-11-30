@@ -1,0 +1,51 @@
+\section{Calculating forces with the FFT}
+
+For this exercsie we look at 1024 uniformly distributed particles in a box and calculate their density and gravitational potential. The box consists of 16x16x16 smaller boxes and the grid points are located in the centers of these boxes. For each particle, we calculate a weight for the 8 closest grid points, which form themselves a box in which the particle is located. We also apply periodic boundary conditions so particles at the edge of the big box contribute to grid points on the other side of the box. By summing the weight contribution of all nearby particles, we get a density estimate $\rho$ at the grid points. A density contrast is then calculated with
+
+\begin{equation}
+\delta=(\rho-\bar{\rho}) / \bar{\rho}
+\end{equation}
+
+where $\bar{\rho} = \frac{1024}{16^{3}}$ is the mean density. The density contrast is plotted for four slices through $z$, which is shown in Fig. \ref{fig:dens}.
+
+Now we want to calculate the gravitational potential in the box. This is done by taking the Fourier transformation of the density contrast and dividing it by the wave number squared. Taking the inverse Fourier transform of this result, gives the gravitational potential in arbitrary units. The calculation process is shown in Eq. (\ref{eq:ex2}) The (fast) Fourier transform and its inverse are calculated with a Cooley-Tukey algorithm.
+
+\begin{equation}\label{eq:ex2}
+\nabla^{2} \Phi \propto \delta \stackrel{\mathrm{FFT}}{\longrightarrow} k^{2} \tilde{\Phi} \propto \tilde{\delta} \stackrel{\text { rewrite }}{\longrightarrow} \tilde{\Phi} \propto \frac{\tilde{\delta}}{k^{2}} \stackrel{\mathrm{iFFT}}{\longrightarrow} \Phi
+\end{equation}
+
+The logarithm of the absolute value of the Fourier transform of the gravitational potential is shown in Fig. \ref{fig:logphi} and the graviational potential is shown in Fig. \ref{fig:phi}.
+
+\subsection{Functions}
+
+\lstinputlisting{ex2_module.py}
+
+\subsection{Exercise a and b}
+
+\lstinputlisting{ex2.py}
+
+\newpage
+
+\subsection{Results}
+
+\begin{figure}[!ht]
+  \hspace*{-1.7cm}
+  \includegraphics[width=1.2\linewidth]{./density.pdf}
+  \caption{Density contrast for slices for $z$ at 4, 9, 11 and 14.}
+  \label{fig:dens}
+\end{figure}
+
+\begin{figure}[!ht]
+  \hspace*{-1.7cm}
+  \includegraphics[width=1.2\linewidth]{./log_ft_of_phi.pdf}
+  \caption{Logarithm of the absolute value of the Fourier transform of the gravitational potential for slices for $z$ at 4, 9, 11 and 14.}
+  \label{fig:logphi}
+\end{figure}
+
+\begin{figure}[!ht]
+  \hspace*{-1.7cm}
+  \includegraphics[width=1.2\linewidth]{./phi.pdf}
+  \caption{Gravitational potential for slices for $z$ at 4, 9, 11 and 14.}
+  \label{fig:phi}
+\end{figure}
+

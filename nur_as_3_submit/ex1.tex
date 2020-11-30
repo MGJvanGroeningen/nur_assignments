@@ -1,0 +1,60 @@
+\section{Satellite galaxies around a massive central}
+
+For this exercise it seemed more natural to group questions a, b and c. The first code listing shows the functions used and at the end there is also some code that deals with the importing and reduction of the data. The second code listing contains the code that executes the functions to solve the problems. The third listing shows the results of the fit and statistics for the different data files. Finally, the fits are shown in a figure.
+
+The objective in this problem is to fit the data from observations of satellite galaxies in cluster haloes. These haloes often contain satellite galaxies that are gravitationally bound to the halo. The spatial distribution of satellite galaxies in the haloes can be described by a number density profile $n(x)$ (\ref{eq:n})
+
+\begin{equation}\label{eq:n}
+n(x)=A\left\langle N_{\text {sat }}\right\rangle \left(\frac{x}{b}\right)^{a-3} \exp \left[-\left(\frac{x}{b}\right)^{c}\right]
+\end{equation}
+ 
+where $x$ is the radius relative to the virial radius, $x \equiv r / r_{\mathrm{vir}}$, $\left\langle N_{\text {sat }}\right\rangle$ is the mean number of satellites in each halo, $A=A(a, b, c)$ is the normalization and $a, b$ and $c$ are free parameters. 
+
+The data are seperated by halo mass in five files. For each file, a Gaussian and Poisson approach is taken to fit the data. For the Gaussian approach, a $\chi^{2}$ (\ref{eq:chi2}) is minimized with a Levenberg-Marquardt algorithm and for the Poisson approach, a $-\ln \mathcal{L}$ (\ref{eq:loglik}) is minimized with a downhill simplex algorithm. The $\chi^{2}$ and $-\ln \mathcal{L}$ are calculated as follows
+
+\begin{equation}\label{eq:chi2}
+\chi^{2}=\sum_{i=0}^{N-1} \frac{\left[y_{i}-\mu\left(x_{i} \mid \mathbf{p}\right)\right]^{2}}{\mu\left(x_{i} \mid \mathbf{p}\right)}
+\end{equation}
+
+\begin{equation}\label{eq:loglik}
+-\ln \mathcal{L}(\mathbf{p})=-\sum_{i=0}^{N-1}\left\{y_{i} \ln \left[\mu\left(x_{i} \mid \mathbf{p}\right)\right]-\mu\left(x_{i} \mid \mathbf{p}\right)\right\}
+\end{equation}
+
+where $\mu\left(x_{i} \mid \mathbf{p}\right)$ is the model with parameters $\mathbf{p}$ at data points $x_{i}$ and $y_{i}$ is the observed data. To evaluate the quality of the fit, a G test statistic and Q value are calculated for each file and approach. The G-test is calculated with
+
+\begin{equation}
+G = 2 \sum_{i=0}^{N-1} y_{i} \ln \left(\frac{y_{i}}{\mu\left(x_{i} \mid \mathbf{p}\right)}\right)
+\end{equation}
+
+and the Q significance is calculated with
+
+\begin{equation}
+Q = 1 - P(G, k)
+\end{equation}
+
+where $P(G, k)=\frac{\gamma\left(\frac{k}{2}, \frac{G}{2}\right)}{\Gamma\left(\frac{k}{2}\right)}$ is the cumulative distribution function of $\chi^{2}$ (which is the underlying distribution of $G$) with $k$ degrees of freedom.
+
+\subsection{Functions and data reduction}
+
+\lstinputlisting{ex1_module.py}
+
+\subsection{Exercises a, b and c}
+
+\lstinputlisting{ex1.py}
+
+\subsection{Results}
+
+The results are ordered by file and then by approach (Gaussian or Poisson). For each approach, the parameters of the best fit of a number density profile are shown, as well as the statistics of the fit. The degrees of freedom are based on the number of filled bins minus four. Minus three for the three free parameters a, b and c and minus one because the value of the last bin is constrained by the total number of galaxies. From the G-test and Q values, it can be seen that the fit from the Poisson approach is (slightly) more likely for all files, which is reasonable since the data are 'counted' galaxies and thus have a Poisson nature. There is some variance in the Q value for each file, ranging from 10 to 94 percent. This seems to be inherent to the data itself, meaning that some data files don't follow the density profile as well.
+
+\lstinputlisting{nur_a3_1_output.txt}
+
+\newpage
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{./nur_a3_1_plot.pdf}
+  \caption{Distribution of satellite galaxies in haloes, where a seperate plot is shown for 5 'classes' of halo mass, ranging from $M \approx 10^{11} \; M_{\odot} \; h^{-1}$ to $M \approx 10^{15} \; M_{\odot} \; h^{-1}$. The data displayed in the plot contain respectively (in order of rising halo mass) 20390835, 1904612, 21488, 223 and 2 different haloes. These haloes contain on average respectively 0.01368, 0.2509, 4.374, 29.13 and 329.5 satellite galaxies. The data are fitted with a number density profile using a Gaussian and Poisson approach. The Gaussian approach minimizes a $\chi^{2}$, while the Poisson approach minimizes a Poisson $-\ln \mathcal{L}$.}
+  \label{fig:ex1}
+\end{figure}
+
+
